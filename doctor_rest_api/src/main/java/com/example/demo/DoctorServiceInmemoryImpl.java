@@ -3,6 +3,7 @@ package com.example.demo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,15 @@ public class DoctorServiceInmemoryImpl implements DoctorService {
 		super();
 		this.doctorList = new ArrayList<>();
 	}
+	
+	
+    @Autowired
+	public DoctorServiceInmemoryImpl(List<Doctor> doctorList) {
+		super();
+		this.doctorList = doctorList;
+	}
+
+
 
 	@Override
 	public boolean write(Doctor obj) {
