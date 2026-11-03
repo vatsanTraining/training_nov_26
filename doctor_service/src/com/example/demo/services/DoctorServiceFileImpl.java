@@ -70,7 +70,4 @@ public class DoctorServiceFileImpl implements DoctorService {
 }
 
 
-//@Service
-//@ConditionalOnProperty(name = "storage.type", havingValue = "file")
-//public class DoctorServiceFileImpl implements DoctorService { ... }
 
