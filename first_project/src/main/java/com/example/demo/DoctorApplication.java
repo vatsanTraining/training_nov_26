@@ -3,6 +3,7 @@ package com.example.demo;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,12 +16,17 @@ public class DoctorApplication {
 	
 	private DoctorService service;
 
-	//constructor injection
-	public DoctorApplication(DoctorService service) {
-		super();
-		this.service = service;
-	}
+//	//constructor injection with @Qualifier
+//	public DoctorApplication(@Qualifier("doctorServiceInmemoryImpl") DoctorService service) {
+//		super();
+//		this.service = service;
+//	}
 
+	//constructor injection
+		public DoctorApplication(DoctorService service) {
+			super();
+			this.service = service;
+		}
 	public List<Doctor> getDoctors(){
 		
 		return this.service.read();

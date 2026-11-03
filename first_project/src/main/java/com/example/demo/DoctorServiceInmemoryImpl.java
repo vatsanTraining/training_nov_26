@@ -3,9 +3,11 @@ package com.example.demo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 @Service
+@ConditionalOnProperty(name = "storage.type", havingValue = "memory")
 public class DoctorServiceInmemoryImpl implements DoctorService {
 
 	
