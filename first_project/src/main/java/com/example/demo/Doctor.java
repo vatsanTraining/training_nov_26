@@ -2,7 +2,6 @@ package com.example.demo;
 
 import org.springframework.stereotype.Component;
 
-@Component
 public class Doctor {
 
 	// instance variable
@@ -37,6 +36,7 @@ public class Doctor {
 	public Doctor(String doctorName, long phoneNumber, String department) throws Exception {
 		super();
 		
+		System.out.println("======= Doctor constructor Called =====");
 		if(doctorName.length() > 3 && doctorName.length()<12) {
 			  this.doctorName = doctorName;
 			}else {

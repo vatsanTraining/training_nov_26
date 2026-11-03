@@ -1,11 +1,15 @@
 package com.example.demo;
 
+import org.demo.Patient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Lazy;
 
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.example.demo","org.demo"})
 public class FirstProjectApplication {
 
 	public static void main(String[] args) {
@@ -16,15 +20,23 @@ public class FirstProjectApplication {
 		
 		Doctor ram =ioc.getBean("ram",Doctor.class);
 		
-		Doctor shyam =ioc.getBean("shyam",Doctor.class);
+	//	Doctor shyam =ioc.getBean("shyam",Doctor.class);
 		
-		DoctorApplication app = ioc.getBean(DoctorApplication.class);
+//		DoctorApplication app = ioc.getBean(DoctorApplication.class);
+//		
+//		
+//		app.addDoctor(ram);
+//		app.addDoctor(shyam);
+//		
+//		app.getDoctors().forEach(System.out::println);
+//		
+		
+		System.out.println(ram);
 		
 		
-		app.addDoctor(ram);
-		app.addDoctor(shyam);
+		System.out.println(ioc.getBean(Patient.class));
 		
-		app.getDoctors().forEach(System.out::println);
+		System.out.println("is singleton:=>" +ioc.isSingleton("patient"));
 		
 		
 		
@@ -32,14 +44,15 @@ public class FirstProjectApplication {
 	}
 	
 	@Bean
+	@Lazy
 	Doctor ram() throws Exception {
 		
 		return new Doctor("Ramesh", 993939, "ENT");
 	}
 
-	@Bean
-	Doctor shyam() throws Exception {
-		
-		return new Doctor("Shyam", 8993939, "Dentist");
-	}
+//	@Bean
+//	Doctor shyam() throws Exception {
+//		
+//		return new Doctor("Shyam", 8993939, "Dentist");
+//	}
 }
