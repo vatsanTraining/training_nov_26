@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: doctor_data_jpa_demo
+  datasource:
+    url: jdbc:h2:file:C:/h2data/sample
+    username: sa  
+    password:
+    driver-class-name: org.h2.Driver
+
+  h2:
+   console:
+     enabled: 
+       path: /h2    
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
