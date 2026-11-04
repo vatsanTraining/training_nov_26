@@ -38,11 +38,7 @@ public class Doctor {
 
 	public void setDoctorName(String doctorName) {
 		
-		if(doctorName.length() > 3 && doctorName.length()<12) {
 		  this.doctorName = doctorName;
-		}else {
-			System.out.println("Invalid DoctorName should be 3 to 12 characters");
-		}
 	}
 	
 	public String getDoctorName() {

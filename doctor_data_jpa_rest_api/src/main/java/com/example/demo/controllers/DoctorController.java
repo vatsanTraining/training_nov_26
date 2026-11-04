@@ -5,12 +5,17 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.service.DoctorInfoService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
+
 import com.example.demo.dto.DoctorDto;
 import com.example.demo.entity.Doctor;
 
@@ -31,6 +36,7 @@ public class DoctorController {
 	
 	
 	@GetMapping
+	@Operation(description = "Feteches the Details of Doctors")
 	public ResponseEntity<List<DoctorDto>> findAll(){
 		
 		return ResponseEntity.ok(this.service.findAll());
@@ -38,8 +44,16 @@ public class DoctorController {
 		
 	}
 	
+	@GetMapping(path = "/{id}")
+	public ResponseEntity<DoctorDto> findAll(@PathVariable long id){
+		
+		return ResponseEntity.ok(this.service.findById(id));
+		
+		
+	}
+	
 	@PostMapping
-	public ResponseEntity<DoctorDto> save(@RequestBody DoctorDto dto){
+	public ResponseEntity<DoctorDto> save(@Valid @RequestBody DoctorDto dto){
 		
 		 DoctorDto saved = this.service.addDoctor(dto);
 		 
