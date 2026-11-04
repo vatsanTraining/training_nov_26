@@ -2,7 +2,7 @@ spring:
   application:
     name: doctor_data_jpa_demo
   datasource:
-    url: jdbc:h2:file:C:/h2data/sample
+    url: jdbc:h2:file:./data/medconnect_testdb
     username: sa  
     password:
     driver-class-name: org.h2.Driver
@@ -15,3 +15,4 @@ spring:
     hibernate:
       ddl-auto: update
       show-sql: true
+

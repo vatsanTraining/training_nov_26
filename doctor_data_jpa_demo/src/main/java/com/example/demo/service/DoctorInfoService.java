@@ -14,6 +14,8 @@ public class DoctorInfoService {
 
 	public DoctorInfoService(DoctorInfoRepository repository) {
 		super();
+		
+		System.out.println("Repo Implementation =>"+repository.getClass().getName());
 		this.repository = repository;
 	}
 	
