@@ -42,10 +42,19 @@ public class DoctorInfoService {
 	
 	public DoctorDto findById(long phoneNumber) {
 		
-		
 		Doctor doc=repository.findById(phoneNumber)
 				 .orElseThrow(() -> new RuntimeException("Phone Number:=>"+phoneNumber+ ":=>Not Found"));
 		
 		return this.mapper.toDto(doc);
 	}
+	
+   public List<DoctorDto> findByDepartment(String dept){
+		
+		List<Doctor> docList =this.repository.findByDepartment(dept);
+		
+		return docList.stream().map(mapper::toDto).toList();
+		
+		
+	}
+	
 }

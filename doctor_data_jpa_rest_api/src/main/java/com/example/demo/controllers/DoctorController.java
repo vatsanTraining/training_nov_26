@@ -52,6 +52,13 @@ public class DoctorController {
 		
 	}
 	
+	@GetMapping(path = "/srch/dept/{dept}")
+	public ResponseEntity<List<DoctorDto>> findByDepartment(@PathVariable String  dept){
+		
+		return ResponseEntity.ok(this.service.findByDepartment(dept));
+		
+		
+	}
 	@PostMapping
 	public ResponseEntity<DoctorDto> save(@Valid @RequestBody DoctorDto dto){
 		
@@ -59,4 +66,9 @@ public class DoctorController {
 		 
 		 return ResponseEntity.status(201).body(saved);
 	}
+	
+	//Add the following mapping
+	// @Delete, @Put, @Patch
+	// Add Pagination and sort By doctName or department
+	
 }
