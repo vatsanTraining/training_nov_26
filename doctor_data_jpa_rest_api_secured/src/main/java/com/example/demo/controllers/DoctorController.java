@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,8 +43,12 @@ public class DoctorController {
 	
 	
 	@GetMapping
-	@Operation(description = "Feteches the Details of Doctors")
-	public ResponseEntity<List<DoctorDto>> findAll(){
+	@Operation(description = "Fetches the Details of Doctors")
+	public ResponseEntity<List<DoctorDto>> findAll(Authentication auth){
+		
+		System.out.println("=== Name ====="+auth.getName());
+		
+		auth.getAuthorities().forEach(System.out::println);
 		
 		return ResponseEntity.ok(this.service.findAll());
 		
@@ -65,6 +71,7 @@ public class DoctorController {
 		
 	}
 	@PostMapping
+	@PreAuthorize(value = "hasRole('ADMIN')")
 	public ResponseEntity<DoctorDto> save(@Valid @RequestBody DoctorDto dto){
 		
 		 DoctorDto saved = this.service.addDoctor(dto);
