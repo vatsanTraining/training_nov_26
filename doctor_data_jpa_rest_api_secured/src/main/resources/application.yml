@@ -11,9 +11,11 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-
+  profiles:
+    active:
+    - "dev"
 logging:
   level:
    org: 
      springframework:
-       security: info
+       security: trace

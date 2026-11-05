@@ -46,9 +46,9 @@ public class DoctorController {
 	@Operation(description = "Fetches the Details of Doctors")
 	public ResponseEntity<List<DoctorDto>> findAll(Authentication auth){
 		
-		System.out.println("=== Name ====="+auth.getName());
+		//System.out.println("=== Name ====="+auth.getName());
 		
-		auth.getAuthorities().forEach(System.out::println);
+		//auth.getAuthorities().forEach(System.out::println);
 		
 		return ResponseEntity.ok(this.service.findAll());
 		

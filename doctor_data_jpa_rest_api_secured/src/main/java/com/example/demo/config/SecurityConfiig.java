@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableMethodSecurity
+@Profile("test")
 public class SecurityConfiig {
 
 	
@@ -48,7 +50,7 @@ public class SecurityConfiig {
 		
 		 http.csrf(csrf -> csrf.disable())
 		 .authorizeHttpRequests(auth -> 
-		         auth.requestMatchers("/swagger-ui.html").permitAll()
+		         auth.requestMatchers("/swagger-ui.html","/swagger-ui/**","/v3/api-docs/**").permitAll()
 		         .anyRequest().authenticated());
 		
 		
