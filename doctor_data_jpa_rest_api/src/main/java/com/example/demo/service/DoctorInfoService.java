@@ -2,6 +2,10 @@ package com.example.demo.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Doctor;
@@ -56,5 +60,32 @@ public class DoctorInfoService {
 		
 		
 	}
-	
+   
+   public void removeDoctor(long phoneNumber) {
+       if (!repository.existsById(phoneNumber)) {
+           throw new RuntimeException("Phone Number:=>" + phoneNumber + ":=>Not Found for deletion");
+       }
+       repository.deleteById(phoneNumber);
+   }
+
+   public DoctorDto updateDepartment(long phoneNumber, String newDept) {
+       Doctor doc = repository.findById(phoneNumber)
+               .orElseThrow(() -> new RuntimeException("Phone Number:=>" + phoneNumber + ":=>Not Found"));
+       
+       doc.setDepartment(newDept); 
+              Doctor updatedDoc = repository.save(doc);
+       return this.mapper.toDto(updatedDoc);
+   }
+
+   public List<DoctorDto> findAllSortedByDepartment() {
+       List<Doctor> docList = repository.findAll(Sort.by(Sort.Direction.ASC, Doctor::getDepartment));
+       return docList.stream().map(mapper::toDto).toList();
+   }
+
+   public Page<DoctorDto> findAllPaginated(int pageNo, int pageSize) {
+       Pageable pageable = PageRequest.of(pageNo, pageSize, Sort.by(Doctor::getDepartment)
+    		      .ascending());
+       Page<Doctor> docPage = repository.findAll(pageable);
+       return docPage.map(mapper::toDto);
+   }
 }
