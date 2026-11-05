@@ -1,3 +1,22 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - "*"
+info:
+  env: 
+    enabled: true
+
+  app:
+    name: ${spring.application.name}
+    build:
+    artificatId: '@project.artifact@'
+    groupId: '@project.groupId@'
+    version: '@project.version@'
+  java:
+    version:@java.version@
+
 server:
    port: 6060
 spring:

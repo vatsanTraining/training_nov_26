@@ -50,7 +50,7 @@ public class SecurityConfiig {
 		
 		 http.csrf(csrf -> csrf.disable())
 		 .authorizeHttpRequests(auth -> 
-		         auth.requestMatchers("/swagger-ui.html","/swagger-ui/**","/v3/api-docs/**").permitAll()
+		         auth.requestMatchers("/swagger-ui.html","/swagger-ui/**","/v3/api-docs/**","/actuator/**").permitAll()
 		         .anyRequest().authenticated());
 		
 		

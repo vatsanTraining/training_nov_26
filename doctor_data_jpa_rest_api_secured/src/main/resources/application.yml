@@ -13,9 +13,28 @@ spring:
     show-sql: true
   profiles:
     active:
-    - "dev"
+    - "test"
 logging:
   level:
    org: 
      springframework:
        security: trace
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - "*"
+info:
+  env: 
+    enabled: true
+
+  app:
+    name: ${spring.application.name}
+    build:
+    artificatId: '@project.artifact@'
+    groupId: '@project.groupId@'
+    version: '@project.version@'
+  java:
+    version:@java.version@
+

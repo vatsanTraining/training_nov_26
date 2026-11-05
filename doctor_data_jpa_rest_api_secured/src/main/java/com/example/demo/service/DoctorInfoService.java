@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import com.example.demo.entity.Doctor;
 import com.example.demo.mapper.DoctorMapper;
 import com.example.demo.respository.DoctorInfoRepository;
+
+import jakarta.transaction.Transactional;
+
 import com.example.demo.dto.*;
 @Service
 public class DoctorInfoService {
@@ -68,15 +71,28 @@ public class DoctorInfoService {
        repository.deleteById(phoneNumber);
    }
 
-   public DoctorDto updateDepartment(long phoneNumber, String newDept) {
-       Doctor doc = repository.findById(phoneNumber)
-               .orElseThrow(() -> new RuntimeException("Phone Number:=>" + phoneNumber + ":=>Not Found"));
-       
-       doc.setDepartment(newDept); 
-              Doctor updatedDoc = repository.save(doc);
-       return this.mapper.toDto(updatedDoc);
-   }
+//   public DoctorDto updateDepartment(long phoneNumber, String newDept) {
+//       Doctor doc = repository.findById(phoneNumber)
+//               .orElseThrow(() -> new RuntimeException("Phone Number:=>" + phoneNumber + ":=>Not Found"));
+//       
+//       doc.setDepartment(newDept); 
+//              Doctor updatedDoc = repository.save(doc);
+//       return this.mapper.toDto(updatedDoc);
+//   }
 
+   @Transactional
+   public DoctorDto updateDepartment(long phoneNumber, String newDept) {
+	   
+	   
+       int  count = repository.updateDepartment(phoneNumber, newDept);
+       if(count ==1) {
+    	   return findById(phoneNumber);   
+       } else {
+    	   throw new RuntimeException("Element With Given Id Not found");
+       }
+       
+       
+   }
    public List<DoctorDto> findAllSortedByDepartment() {
        List<Doctor> docList = repository.findAll(Sort.by(Sort.Direction.ASC, Doctor::getDepartment));
        return docList.stream().map(mapper::toDto).toList();
