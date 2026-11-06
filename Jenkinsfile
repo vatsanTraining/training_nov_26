@@ -4,7 +4,7 @@ pipeline {
     environment {
         PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:${env.PATH}"
         
-        // Formatted to map directly to your Docker Hub repository
+        
         IMAGE_NAME = "vatsank/doctor-data-jpa-api"
         IMAGE_TAG  = "${BUILD_NUMBER}"
         CONTAINER_NAME = "doctor-data-api-container"
@@ -30,7 +30,7 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 echo 'Logging in and pushing image to Docker Hub...'
-                // Pointed explicitly to your pre-existing credential ID
+               
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', 
                                                  usernameVariable: 'DOCKER_USER', 
                                                  passwordVariable: 'DOCKER_PASS')]) {
