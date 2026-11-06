@@ -1,0 +1,7 @@
+services:
+  spring-app:
+    build: .
+    container_name: spring-boot-demo
+    image: vatsank/spring-boot-demo:latest  
+    ports:
+      - "3030:3030"	  
