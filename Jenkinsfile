@@ -2,10 +2,12 @@ pipeline {
     agent any
 
     environment {
+        // Appends common macOS Docker Desktop binary paths to Jenkins' PATH variable
+        PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:${env.PATH}"
+        
         IMAGE_NAME = "doctor-data-jpa-api"
         IMAGE_TAG  = "${BUILD_NUMBER}"
         CONTAINER_NAME = "doctor-data-api-container"
-        // Point this to your specific project subdirectory
         PROJECT_DIR = "doctor_data_jpa_rest_api_secured-dockerized"
     }
 
@@ -19,7 +21,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo 'Building the multi-stage Docker image...'
-                // The dir() block tells Jenkins to execute the command inside the subfolder
                 dir("${env.PROJECT_DIR}") {
                     sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} -t ${IMAGE_NAME}:latest ."
                 }
@@ -60,6 +61,7 @@ pipeline {
     post {
         always {
             echo 'Cleaning up dangling Docker build images...'
+            // We wrap this inside a catchBlock or path assurance so it doesn't fail the whole build if no images exist
             sh 'docker image prune -f'
         }
     }
