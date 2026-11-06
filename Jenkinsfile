@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     environment {
-        // Appends common macOS Docker Desktop binary paths to Jenkins' PATH variable
         PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin:${env.PATH}"
         
-        IMAGE_NAME = "doctor-data-jpa-api"
+        // Formatted to map directly to your Docker Hub repository
+        IMAGE_NAME = "vatsank/doctor-data-jpa-api"
         IMAGE_TAG  = "${BUILD_NUMBER}"
         CONTAINER_NAME = "doctor-data-api-container"
         PROJECT_DIR = "doctor_data_jpa_rest_api_secured-dockerized"
@@ -27,9 +27,23 @@ pipeline {
             }
         }
 
+        stage('Push to Docker Hub') {
+            steps {
+                echo 'Logging in and pushing image to Docker Hub...'
+                // Pointed explicitly to your pre-existing credential ID
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', 
+                                                 usernameVariable: 'DOCKER_USER', 
+                                                 passwordVariable: 'DOCKER_PASS')]) {
+                    sh "echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin"
+                    sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
+                    sh "docker push ${IMAGE_NAME}:latest"
+                }
+            }
+        }
+
         stage('Deploy Container') {
             steps {
-                echo 'Deploying the application container...'
+                echo 'Deploying the application container locally...'
                 sh '''
                     if [ \$(docker ps -aq -f name=${CONTAINER_NAME}) ]; then
                         echo "Stopping and removing existing container..."
@@ -61,7 +75,6 @@ pipeline {
     post {
         always {
             echo 'Cleaning up dangling Docker build images...'
-            // We wrap this inside a catchBlock or path assurance so it doesn't fail the whole build if no images exist
             sh 'docker image prune -f'
         }
     }
