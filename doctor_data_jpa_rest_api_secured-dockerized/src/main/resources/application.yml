@@ -23,16 +23,7 @@ management:
       exposure:
         include:
         - "*"
-info:
-  env: 
-    enabled: true
-
-  app:
-    name: ${spring.application.name}
-    build:
-    artificatId: '@project.artifact@'
-    groupId: '@project.groupId@'
-    version: '@project.version@'
-  java:
-    version:@java.version@
+  info:
+    env: 
+      enabled: true
 

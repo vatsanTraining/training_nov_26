@@ -9,6 +9,8 @@ import jakarta.persistence.Table;
 @Table(name = "doctor_nov_26")
 public class Doctor {
 
+	@Column(name = "id")
+	private Long id;
 	
 	@Column(name = "doctor_name")
 	private String doctorName;
