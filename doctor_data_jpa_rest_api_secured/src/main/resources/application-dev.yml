@@ -4,37 +4,40 @@ management:
       exposure:
         include:
         - "*"
+  info:
+    env:
+      enabled: true
+  
 info:
-  env: 
-    enabled: true
-
   app:
     name: ${spring.application.name}
-    build:
-    artificatId: '@project.artifact@'
+    artifactId: '@project.artifactId@'
     groupId: '@project.groupId@'
     version: '@project.version@'
   java:
-    version:@java.version@
+    version: '@java.version@'
 
 server:
-   port: 6060
+  port: 6060
+
 spring:
   application:
     name: doctor_data_jpa_rest_api_secured
   datasource:
-    url: jdbc:h2:file:./data/medconnect_testdb
-    username: sa  
-    password:
-    driver-class-name: org.h2.Driver
-
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:medconnect_db}?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:rootpassword}
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
 
 logging:
   level:
-   org: 
-     springframework:
-       security: warn
+    org:
+      springframework:
+         security: warn

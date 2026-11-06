@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: doctor_data_jpa_rest_api_secured-dockerized
+  datasource:
+    url: jdbc:h2:file:./data/medconnect_testdb
+    username: sa  
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  
+logging:
+  level:
+   org: 
+     springframework:
+       security: trace
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        - "*"
+info:
+  env: 
+    enabled: true
+
+  app:
+    name: ${spring.application.name}
+    build:
+    artificatId: '@project.artifact@'
+    groupId: '@project.groupId@'
+    version: '@project.version@'
+  java:
+    version:@java.version@
+

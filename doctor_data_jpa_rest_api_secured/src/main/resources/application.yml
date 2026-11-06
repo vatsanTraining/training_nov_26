@@ -13,7 +13,7 @@ spring:
     show-sql: true
   profiles:
     active:
-    - "test"
+    - "dev"
 logging:
   level:
    org: 

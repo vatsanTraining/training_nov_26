@@ -1,0 +1,46 @@
+services:
+  mysqldb:
+    image: mysql:8.0
+    container_name: medconnect_mysql_container
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: medconnect_db
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - medconnect-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: doctor_data_api_container
+    ports:
+      - "6060:6060"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - DB_HOST=mysqldb
+      - DB_PORT=3306
+      - DB_NAME=medconnect_db
+      - DB_USER=root
+      - DB_PASSWORD=rootpassword
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+    networks:
+      - medconnect-network
+
+networks:
+  medconnect-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
